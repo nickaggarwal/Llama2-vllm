@@ -9,8 +9,7 @@ class InferlessPythonModel:
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
         
     def infer(self,inputs):
-        prompts = inputs["prompt"]  # Extract the prompt from the input
-        chat_format = [{"role": "user", "content": prompts}]
+        chat_format = [{"role": "user", "content": inputs["prompt"]}] # Extract the prompt from the input
         text = self.tokenizer.apply_chat_template(chat_format,tokenize=False,add_generation_prompt=True)
         result = self.llm.generate(text, self.sampling_params)
         return {'generated_text': output.outputs[0].text}
